@@ -98,7 +98,7 @@ cp.stderr.on('data', (data) => {
     let str = data.toString('utf8');
     // console.log(`STDERR ${data}`);
     if(/listening\s+on\s+port\s+\d{4}/i.test(str)) {
-        console.log(`Start reading customers.csv\n`.cyan);
+        console.log(`\nReading customers.csv\n`.cyan.bold);
         readStream.pipe(csvStream);
     }
 });
