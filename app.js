@@ -6,12 +6,14 @@ const fs = require('fs');
 const path = require('path');
 let csv = require('fast-csv');
 let readStream = fs.createReadStream(process.argv[2] || './customers.csv');
-// let readStream = fs.createReadStream('./customers.csv');
 let http = require('http');
-const { exec } = require('child_process');
+const { spawn } = require('child_process');
+
+let cp = spawn(path.resolve(__dirname, `commservice.linux`), [], { cwd: __dirname });
 
 process.on('beforeExit', code => {
     console.log('beforeExit', code);
+    cp.kill('SIGTERM');
     // exec(`taskkill -F -T -PID ${cp.pid}`, (error, stdout, stderr) => {
     //     if (error) {
     //         console.error(`exec error: ${error}`);
@@ -79,14 +81,22 @@ var csvStream = csv({
         timers[`${t}_${chunk.email}`] = tid;
     }
 })
-.on("close", function(val){
+.on("close", function(val) {
     // console.log("CLOSE parsing CSV", val);
 })
-.on("end", function(val){
+.on("end", function(val) {
     // console.log("END parsing CSV", val);
 });
 
-readStream.pipe(csvStream);
+cp.stdout.on('data', (data) => {
+    console.log(`REPORT:`.yellow, `${data}`);
+});
+
+cp.stderr.on('data', (data) => {
+    // cp.kill('SIGTERM');
+    readStream.pipe(csvStream);
+});
+
 
 
 function clearTimers(timers) {
