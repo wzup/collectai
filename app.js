@@ -95,7 +95,12 @@ cp.stdout.on('data', (data) => {
 
 cp.stderr.on('data', (data) => {
     // cp.kill('SIGTERM');
-    readStream.pipe(csvStream);
+    let str = data.toString('utf8');
+    // console.log(`STDERR ${data}`);
+    if(/listening\s+on\s+port\s+\d{4}/i.test(str)) {
+        console.log(`Start reading customers.csv\n`.cyan);
+        readStream.pipe(csvStream);
+    }
 });
 
 
