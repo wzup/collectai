@@ -9,7 +9,8 @@ let readStream = fs.createReadStream(process.argv[2] || './customers.csv');
 let http = require('http');
 const { spawn } = require('child_process');
 
-let cp = spawn(path.resolve(__dirname, `commservice.linux`), [], { cwd: __dirname });
+
+let cp = spawn(path.resolve(__dirname, '..', `bin/commservice.linux`), [], { cwd: __dirname });
 
 process.on('beforeExit', code => {
     console.log('beforeExit', code);
