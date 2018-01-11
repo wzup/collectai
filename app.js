@@ -12,14 +12,14 @@ const { exec } = require('child_process');
 
 process.on('beforeExit', code => {
     console.log('beforeExit', code);
-    exec(`taskkill -F -T -PID ${cp.pid}`, (error, stdout, stderr) => {
-        if (error) {
-            console.error(`exec error: ${error}`);
-            return;
-        }
-        console.log(`stdout: ${stdout}`, typeof stdout, stdout);
-        console.log(`stderr: ${stderr}`, typeof stderr, stderr);
-    });
+    // exec(`taskkill -F -T -PID ${cp.pid}`, (error, stdout, stderr) => {
+    //     if (error) {
+    //         console.error(`exec error: ${error}`);
+    //         return;
+    //     }
+    //     console.log(`stdout: ${stdout}`, typeof stdout, stdout);
+    //     console.log(`stderr: ${stderr}`, typeof stderr, stderr);
+    // });
 })
 
 let options = {
